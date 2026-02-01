@@ -1,0 +1,92 @@
+@media(max-width:768px) {
+    /*======== products============*/
+    /*----------add products--------*/
+
+    .page-heading {
+        flex-direction: column;
+    }
+
+    .add-products-main {
+        flex-direction: column;
+    }
+
+    .add-products-left {
+        width: 100%;
+    }
+
+    .add-products-right {
+        width: 100%;
+    }
+
+    .add-products-info {
+        flex-direction: column;
+    }
+
+    .add-variant-btn {
+        width: 130px;
+        margin-bottom: 10px;
+    }
+
+    .products-left-card.right-card {
+        flex-direction: column;
+    }
+
+    .image-upload-box {
+        width: 100%;
+    }
+
+    .products-upload-img {
+        width: 100%;
+    }
+
+    .p-search-box {
+        flex-direction: column;
+    }
+
+    .p-search-box h3 {
+        text-align: left;
+    }
+
+    .p-search-box input {
+        width: 215px;
+    }
+
+    .products-searchh-icon.order-filter {
+        right: 37%;
+    }
+
+    .search-and-filter {
+        flex-wrap: wrap;
+    }
+
+    .products-input-main {
+        flex-wrap: wrap;
+    }
+
+    .products-input-main.left-details {
+        display: flex;
+    }
+
+    .products-input-left-inner.left-details-inner {
+        width: 100%;
+    }
+
+    .products-input-main-inner {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+    .productsContainer {
+        overflow-x: scroll;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pooja-image-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
