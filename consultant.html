@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>book puja</title>
+     <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+<body>
+    <!--- open Model button ..............-->
+    
+    <button class="open-btn" id="openModel"> Consultant</button>
+
+    <div  class="puja-model" id="pujaModel">
+    <div class="model-contant">
+        <span class="close" id="closeModel">x</span>
+        <h2>🕉️ Book Free Consultant</h2>
+        <form class="bookPuja-form" onsubmit="return validateform()">
+            <label>Name</label>
+            <input type="text" id="consultant-name" placeholder="Enter your name">
+         
+            <label>Enter Mobile Number</label>
+            <input type="number" id="consultant-mobile" placeholder="Enter your phone number">
+
+            <label>Date of Birth</label>
+            <input type="date" id="consultant-email">
+
+            <label> Birth Place</label>
+            <input type="text" id="consultant-place" placeholder="Enter your birth place">
+
+            <label>Birth Timing</label>
+            <input type="time" id="consultant-birthTime">
+
+            <button type="button" onclick="validateform" class="puja-btn"> ✨Book Now ✨</button>
+
+        </form>
+    </div>
+    </div>
+
+    <script src="assets/js/index.js"></script>
+    
+</body>
+</html>

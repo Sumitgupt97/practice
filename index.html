@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>book puja</title>
+     <link rel="stylesheet" href="assets/css/style.css">
+     <link rel="stylesheet" href="assets/js/index.js"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+</head>
+<body>
+    <!--- open Model button ..............-->
+
+    <button class="open-btn" id="openModel"> Book a puja</button>
+
+    <div  class="puja-model" id="pujaModel">
+    <div class="model-contant">
+        <span class="close" id="closeModel" onclick="closemodel()">x</span>
+        <h2>🕉️   Book a Puja</h2>
+        <form class="bookPuja-form" onsubmit="return validateform()">
+            <label>Name</label>
+            <input type="text" id="puja-name" placeholder="Enter your name">
+         
+            <label>Enter Mobile Number</label>
+            <input type="number" id="puja-mobile" placeholder="Enter your phone number">
+
+            <label>Email</label>
+            <input type="email" id="puja-email" placeholder="Enter your email">
+
+            <label>Type of puja</label>
+            <select class="puja-type">
+                <option value="">Select puja type</option>
+                <option value="Griha Prevesh puja(New & Rented)">Griha Prevesh puja(New & Rented)</option>
+                <option value="Office & Business Puja">Office & Business Puja</option>
+                <option value="Bhoomi puja ">Bhoomi Puja</option>
+                <option value="Vasakal Puja">Vasakal ( Main Door Frame ) Puja</option>
+                <option value="Rudrabishek Puja">Rudrabishek Puja</option>
+                <option value="Satyanarayan Puja">Satyanarayan Puja</option>
+                  <option value="Maha Ganapati Homa">Maha Ganapati Homa</option>
+                <option value="Marriage Puja">Marriage puja</option>
+                  <option value="Enter Puja">Engagement Puja</option>
+                <option value="Pre-Wedding & Haldi Ceremony ">Pre- Wedding & Haldi Ceremony Puja</option>
+                  <option value="Marriage Anniversary Puja">Marriage Anniversary Puja</option>
+                <option value="Birthday Puja"> Birthday puja</option>
+                 <option value="Durga Puja">Durga Puja</option>
+                <option value="Shiv Puja">Shiv Puja </option>
+                <option value="Hanuman Puja">Hanuman Puja</option>
+                <option value="Lakshmi Puja"> Lakshmi Puja</option>
+                <option value="">Other...</option>
+            </select>
+
+            <label> Location</label>
+            <input type="text" id="puja-location" placeholder="Enter the location">
+
+            <label>Date</label>
+            <input type="date" id="puja-date">
+
+            <button type="submit" onclick="validateform" class="puja-btn"> ✨Book Now ✨</button>
+
+        </form>
+    </div>
+    </div>
+
+   <script src="assets/js/index.js"></script>
+   
+</body>
+</html>

@@ -1,17 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
 <?php
-
-include 'application/views/admin/layout/header.php';
-
+ echo" hello ";
+ echo"<h2> hello pphp </h2>";
 ?>
-
-<?php
- include 'application/views/admin/demo.php';
-
-?>
-<?php
-
-include 'application/views/admin/layout/footer.php';
-
-?>
-
-<!-- index.php application/views/admin/layout/header.php application/views/admin/layout/footer.php -->
+</body>
+</html>
