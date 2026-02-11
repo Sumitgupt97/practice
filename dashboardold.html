@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Segoe UI, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fee;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            align-items: center;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .dashboard h1 {
+            font-weight: 700;
+            color: #2c2e3f;
+            font-size: 25px;
+        }
+
+        .sidebar {
+            width: 240px;
+            background-color: white;
+            color: black;
+            padding: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0px;
+        }
+
+        .sidebar ul li {
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sidebar ul li.active {
+            background-color: #f65303;
+            color: #ffff;
+        }
+
+        /* .sidebar ul li:hover {
+            background-color: #e1dbdb;
+        } */
+
+        .content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .dashboard-card {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #fff;
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .card-heading {
+            display: block;
+            font-size: 16px;
+            color: #7c8db5;
+            margin-top: 8px;
+        }
+
+        .card-count {
+            font-weight: 800;
+            font-size: 18px;
+            color: #2c2e3f;
+        }
+
+        .table-wrapper{
+            overflow-x: auto;        
+        }
+
+        .order-table {
+            width: 100%;
+            background: #fff;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+            overflow-x: auto;
+            margin-bottom: 10px;
+            white-space: nowrap;
+        }
+
+        .order-table th {
+            background: #E65100;
+            color: #fff;
+            padding: 12px;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .order-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        .order-img {
+            width: 60px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .badge {
+            padding: 6px 13px;
+            border-radius: 15px;
+            font-size: 14px;
+            color: #fff;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .badge.paid {
+            background: #2E7D32;
+        }
+
+        .badge.upcoming {
+            background: #0288D1;
+        }
+
+        .badge.completed {
+            background: #2E7D32;
+        }
+
+        .badge.cancel {
+            background: #C62828;
+        }
+
+        .badge.delivered {
+            background-color: #e6f9f0;
+            color: #0f9d58;
+        }
+
+        /* ---------- suport form------------------*/
+        .support-form {
+            background: #fff;
+            max-width: 100%;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, .1);
+            margin-top: 20px;
+        }
+
+        .support-form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 600;
+            color: #121116;
+        }
+
+        .support-form input,
+        .support-form select,
+        .support-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .support-form input[readonly] {
+            background: #f3f3f3;
+        }
+
+        .support-form .row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .support-form .col {
+            flex: 1;
+        }
+
+        .support-btn {
+            margin-top: 15px;
+            width: 20%;
+            padding: 12px;
+            background: #E65100;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .support-btn:hover {
+            background: #d84315;
+        }
+
+        .close-btn {
+            display: none;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+        .order-table thead tr:first-child th:first-child{
+           border-top-left-radius: 12px;
+        }
+
+        .order-table thead tr:first-child th:last-child{
+          border-top-right-radius: 12px;
+        }
+
+        /*---------- responsive-------------*/
+        .mobile-header {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            color: #f65303;
+        }
+
+        @media (max-width:768px) {
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .dashboard {
+                flex-direction: column;
+            }
+            .content{
+                padding: 20px;
+            }
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                width: 250px;
+                height: 100vh;
+                z-index: 1000;
+                transition: 0.3s;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .close-btn {
+                display: block;
+            }
+            .close-btn:hover{
+                color: #E65100;
+            }
+
+            .page {
+                padding-top: 10px;
+            }
+
+            .dashboard-card {
+                /* flex-direction: column; */
+                flex-wrap: wrap;
+            }
+
+            .support-btn {
+                width: 100%;
+            }
+        }
+    </style>
+    </style>
+
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- ========== sidebar ======== -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/admin/images/logo/logo.png" alt="logo">
+                <i class="fa fa-xmark close-btn" id="close-sidebar"></i>
+            </div>
+            <ul>
+                <li class="active" data-page="dashboard">
+                    <i class="fa fa-home"></i>  Dashboard</li>
+                <li data-page="upcoming"><i class="fa fa-calendar"></i> Upcoming Pooja</li>
+                <li data-page="completed"><i class="fa fa-check-circle"></i> Completed Pooja</li>
+                <li data-page="cancel"><i class="fa fa-times-circle"></i> Cancel Pooja</li>
+                <li data-page="orders"><i class="fa fa-receipt"></i> Order History</li>
+                <li data-page="support"><i class="fa fa-headset"></i> Support</li>
+            </ul>
+        </aside>
+
+        <div class="overlay" id="overlay"></div>
+
+        <div class="content">
+            <div class="mobile-header">
+                <i class="fa fa-bars" id="menu-toggle"></i>
+                <!-- <img src="assets/admin/images/logo/logo.png" alt="logo"> -->
+
+            </div>
+
+            <!-- Dashboard -->
+            <div class="page active" id="dashboard">
+                <h1>User Dashboard</h1>
+                <div class="dashboard-card">
+                    <div class="card">
+                        <span class="card-heading"> Upcoming Pooja</span>
+                        <span class="card-count">2</span>
+                    </div>
+                    <div class="card">
+                        <span class="card-heading"> Completed Pooja</span>
+                        <span class="card-count">5</span>
+                    </div>
+                    <div class="card">
+                        <span class="card-heading">Cancel</span>
+                        <span class="card-count">1</span>
+                    </div>
+                    <div class="card">
+                        <span class="card-heading"> Total Order</span>
+                        <span class="card-count">7</span>
+                    </div>
+                </div>
+            </div>
+            <!------------------Completed pooja------------------->
+            <div class="page" id="completed">
+                <h1>Completed Pooja</h1>
+
+                <div class="table-wrapper">
+                    <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Order ID</th>
+                            <th>Puja Name</th>
+                            <th>Booking Date</th>
+                            <th>Time</th>
+                            <th>Pandit Name</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>PD1023</td>
+                            <td>Griha Pravesh Pooja</td>
+                            <td>10 Feb 2026</td>
+                            <td>09:00 AM</td>
+                            <td>Pandit Ram Sharma</td>
+                            <td>₹1200</td>
+                            <td>
+                                <span class="badge upcoming">Completed</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                
+            </div>
+
+            <!-- ------upcoming pooja--------------------->
+
+            <div class="page" id="upcoming">
+                <h1>Upcoming Pooja</h1>
+
+                <div class="table-wrapper">
+                    <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Image</th>
+                            <th>Order ID</th>
+                            <th>Puja Name</th>
+                            <th>Booking Date</th>
+                            <th>Time</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <img src="assets/admin/images/Griha-pravesh-puja (1).webp" class="order-img">
+                            </td>
+                            <td>PD1023</td>
+                            <td>Griha Pravesh Pooja</td>
+                            <td>10 Feb 2026</td>
+                            <td>09:00 AM</td>
+                            <td>₹999</td>
+                            <td>
+                                <span class="badge upcoming">Upcoming</span>
+                            </td>
+                            <td>
+                                <span class="badge cancel">cancel</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <img src="assets/admin/images/Griha-pravesh-puja (1).webp" class="order-img">
+                            </td>
+                            <td>PD1024</td>
+                            <td>Griha Pravesh Pooja</td>
+                            <td>11 Feb 2026</td>
+                            <td>10:00 AM</td>
+                            <td>₹1020</td>
+                            <td>
+                                <span class="badge upcoming">Upcoming</span>
+                            </td>
+                            <td>
+                                <span class="badge cancel">cancel</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                </div>
+            </div>
+            <!--------------cancel pooja----------------------->
+            <div class="page" id="cancel">
+                <h1>Cancel Pooja</h1>
+
+                <div class="table-wrapper">
+                    <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Image</th>
+                            <th>Order ID</th>
+                            <th>Puja Name</th>
+                            <th>Booking Date</th>
+                            <th>Time</th>
+                            <th>Amount</th>
+                            <th>cancel Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <img src="assets/admin/images/Griha-pravesh-puja (1).webp" class="order-img">
+                            </td>
+                            <td>PD1023</td>
+                            <td>Griha Pravesh Pooja</td>
+                            <td>10 Feb 2026</td>
+                            <td>09:00 AM</td>
+                            <td>₹999</td>
+                            <td>
+                                Pandit not available
+                            </td>
+                            <td>
+                                <span class="badge cancel">cancel</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+            </div>
+
+            <!--------------------- order history----------------->
+
+            <div class="page" id="orders">
+                <h1>Order History</h1>
+
+                <div class="table-wrapper">
+                    <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>S.N</th>
+                            <th>Image</th>
+                            <th>Order ID</th>
+                            <th>Puja Name</th>
+                            <th>Booking Date</th>
+                            <th>Time</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <img src="assets/admin/images/Griha-pravesh-puja (1).webp" class="order-img">
+                            </td>
+                            <td>PD1023</td>
+                            <td>Griha Pravesh Pooja</td>
+                            <td>10 Feb 2026</td>
+                            <td>10:00 AM</td>
+                            <td>₹999</td>
+                            <td>
+                                <span class="badge paid">paid</span>
+                            </td>
+                            <td>
+                                <span class="badge delivered">Delivered</span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+            </div>
+
+            <!--------Support------------------------->
+            <div class="page" id="support">
+                <h1>Support</h1>
+
+                <form class="support-form">
+
+                    <div class="row">
+                        <div class="col">
+                            <label>Name</label>
+                            <input type="text" name="name" placeholder="Enter your name">
+                        </div>
+
+                        <div class="col">
+                            <label>Email</label>
+                            <input type="email" placeholder="example@email.com">
+                        </div>
+                    </div>
+
+                    <label>Order ID (Optional)</label>
+                    <input type="text" placeholder="Enter Order ID">
+
+                    <label>Issue Type</label>
+                    <select required>
+                        <option value="">-- Select Issue --</option>
+                        <option>Payment Issue</option>
+                        <option>Pooja Not Completed</option>
+                        <option>Pandit Issue</option>
+                        <option>Booking Cancellation</option>
+                        <option>Other</option>
+                    </select>
+
+                    <label>Message</label>
+                    <textarea rows="4" placeholder="Describe your issue..." required></textarea>
+
+                    <label>Attachment (Optional)</label>
+                    <input type="file">
+
+                    <button type="submit" class="support-btn">
+                        Submit Request
+                    </button>
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <script>
+        const menu = document.querySelectorAll(".sidebar ul li");
+        const pages = document.querySelectorAll(".page");
+
+        menu.forEach(item => {
+            item.addEventListener("click", () => {
+                menu.forEach(i => i.classList.remove("active"));
+                pages.forEach(p => p.classList.remove("active"));
+
+                item.classList.add("active");
+                document.getElementById(item.dataset.page).classList.add("active");
+            });
+        });
+    </script>
+
+    <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const sidebar = document.querySelector(".sidebar");
+        const overlay = document.getElementById("overlay");
+        const closeBtn = document.getElementById("close-sidebar");
+
+        menuToggle.addEventListener("click", () => {
+            sidebar.classList.add("active");
+            overlay.classList.add("active");
+        });
+
+        closeBtn.addEventListener("click", () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
+
+        overlay.addEventListener("click", () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
+
+        overlay.addEventListener("click", () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+            menuToggle.classList.replace("fa-xmark", "fa-bars");
+
+        });
+
+        menu.forEach(item => {
+            item.addEventListener("click", () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove("active");
+                    overlay.classList.remove("active");
+                    menuToggle.classList.replace("fa-xmark", "fa-bars");
+                }
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
